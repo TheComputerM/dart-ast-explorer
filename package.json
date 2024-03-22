@@ -1,0 +1,26 @@
+{
+  "name": "dart-ast-explorer",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare": "panda codegen",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ark-ui/solid": "^2.2.0",
+    "@fontsource/roboto": "^5.0.12",
+    "nanostores": "^0.10.0",
+    "solid-codemirror": "^2.3.1",
+    "solid-js": "^1.8.15"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "^0.36.0",
+    "@park-ui/panda-preset": "^0.36.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-solid": "^2.10.2"
+  }
+}

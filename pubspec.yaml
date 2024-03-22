@@ -1,0 +1,14 @@
+name: dart-ast-explorer
+description: An AST explorer for dart on the web without a backend
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.3.0
+
+# Add regular dependencies here.
+dependencies:
+  analyzer: ^6.4.1
+  web: ^0.5.1
+
+dev_dependencies:
