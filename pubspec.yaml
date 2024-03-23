@@ -1,4 +1,4 @@
-name: dart-ast-explorer
+name: dart_ast_explorer
 description: An AST explorer for dart on the web without a backend
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
