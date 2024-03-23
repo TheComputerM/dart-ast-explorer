@@ -11,9 +11,14 @@
   },
   "dependencies": {
     "@ark-ui/solid": "^2.2.0",
+    "@codemirror/language": "^6.10.1",
+    "@codemirror/legacy-modes": "^6.3.3",
     "@fontsource/roboto": "^5.0.12",
+    "@nanostores/solid": "^0.4.2",
+    "@solid-primitives/scheduled": "^1.4.3",
+    "codemirror": "^6.0.1",
+    "lucide-solid": "^0.363.0",
     "nanostores": "^0.10.0",
-    "solid-codemirror": "^2.3.1",
     "solid-js": "^1.8.15"
   },
   "devDependencies": {
