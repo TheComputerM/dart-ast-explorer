@@ -4,8 +4,8 @@ import { basicSetup, EditorView } from "codemirror";
 import { StreamLanguage } from "@codemirror/language";
 import { dart } from "@codemirror/legacy-modes/mode/clike";
 import { onMount } from "solid-js";
-import { css } from "styled-system/css";
 import { debounce } from "@solid-primitives/scheduled";
+import { css } from "styled-system/css";
 
 export const CodeEditor = () => {
   const code = useStore($inputCode);
@@ -23,6 +23,11 @@ export const CodeEditor = () => {
             updateCode(v.view.state.doc.toString());
           }
         }),
+        EditorView.theme({
+          "&": {
+            height: "100%",
+          },
+        }),
       ],
       parent: editorRef!,
     });
@@ -32,7 +37,5 @@ export const CodeEditor = () => {
     };
   });
 
-  return (
-    <div ref={editorRef} class={css({ flexBasis: "1/2", height: "full" })} />
-  );
+  return <div class={css({ height: "full" })} ref={editorRef} />;
 };

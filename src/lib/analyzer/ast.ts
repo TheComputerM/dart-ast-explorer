@@ -27,17 +27,17 @@ export class AstTreeBuilder {
     this._currentAddress = [];
   }
 
-  visitNode(node: AstTreeNode) {
-    const parentNode = this._getCurrentTreeNode();
+  enterNode(node: AstTreeNode) {
+    const parentNode = this._getNodeAtCurrentAddress();
     parentNode.children.push(node);
     this._currentAddress.push(node.id);
   }
 
-  popNode() {
+  exitNode() {
     this._currentAddress.pop();
   }
 
-  _getCurrentTreeNode() {
+  _getNodeAtCurrentAddress() {
     let currentNode = this.rootNode;
     for (const id of this._currentAddress) {
       currentNode = currentNode.findChild(id)!;

@@ -14,6 +14,9 @@ extension type AstTreeNode._(JSObject _) implements JSObject {
   );
   external int id;
   external String type;
+  external String source;
+  external int start;
+  external int end;
 
   external AstTreeNode findChild(int id);
 }
@@ -22,8 +25,8 @@ extension type AstTreeBuilder._(JSObject _) implements JSObject {
   external AstTreeBuilder();
   external AstTreeNode rootNode;
 
-  external void visitNode(AstTreeNode node);
-  external void popNode();
+  external void enterNode(AstTreeNode node);
+  external void exitNode();
 }
 
 @JS('tree')
@@ -32,6 +35,7 @@ external AstTreeBuilder get tree;
 class AstTreeVisitor extends UnifyingAstVisitor<void> {
   @override
   void visitNode(AstNode node) {
+    // create a AST tree node that is connected to JS  
     var treeNode = AstTreeNode(
       node.hashCode,
       node.runtimeType.toString(),
@@ -40,10 +44,13 @@ class AstTreeVisitor extends UnifyingAstVisitor<void> {
       node.end,
     );
 
-    tree.visitNode(treeNode);
+    // Add the node to the tree
+    tree.enterNode(treeNode);
 
     super.visitNode(node);
-    tree.popNode();
+
+    // Exit the node so, this helps in determining the current parent node
+    tree.exitNode();
   }
 }
 
