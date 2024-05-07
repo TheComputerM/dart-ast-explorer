@@ -12,20 +12,20 @@
   "dependencies": {
     "@ark-ui/solid": "^2.2.0",
     "@codemirror/language": "^6.10.1",
-    "@codemirror/legacy-modes": "^6.3.3",
-    "@fontsource/roboto": "^5.0.12",
+    "@codemirror/legacy-modes": "^6.4.0",
+    "@fontsource/roboto": "^5.0.13",
     "@nanostores/solid": "^0.4.2",
     "@solid-primitives/scheduled": "^1.4.3",
     "codemirror": "^6.0.1",
-    "lucide-solid": "^0.363.0",
-    "nanostores": "^0.10.0",
-    "solid-js": "^1.8.15"
+    "lucide-solid": "^0.378.0",
+    "nanostores": "^0.10.3",
+    "solid-js": "^1.8.17"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.36.0",
-    "@park-ui/panda-preset": "^0.36.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0",
+    "@pandacss/dev": "^0.39.0",
+    "@park-ui/panda-preset": "^0.37.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
     "vite-plugin-solid": "^2.10.2",
     "vite-tsconfig-paths": "^4.3.2"
   }
