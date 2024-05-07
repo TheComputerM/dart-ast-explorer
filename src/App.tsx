@@ -2,13 +2,12 @@ import "@fontsource/roboto";
 import { Flex, Grid, GridItem } from "styled-system/jsx";
 import { AstPreview } from "~/components/ast-preview";
 import { CodeEditor } from "~/components/code-editor";
+import { Navbar } from "./components/navbar";
 
 function App() {
   return (
     <Flex height="screen" direction="column">
-      <Flex>
-        <h1>Dart AST Viewer</h1>
-      </Flex>
+      <Navbar />
       <Grid flexGrow={1} columns={2}>
         <GridItem>
           <CodeEditor />
