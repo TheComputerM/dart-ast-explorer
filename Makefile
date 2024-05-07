@@ -1,5 +1,3 @@
-SDK_PATH := ../dart-sdk/sdk/pkg/dart2wasm/bin/dart2wasm.dart
-
 .PHONY: wasm
 wasm:
-	dart --enable-asserts $(SDK_PATH) ./src/lib/analyzer/main.dart ./src/lib/wasm/analyzer.wasm
+	dart compile wasm ./src/lib/analyzer/main.dart -o ./src/lib/wasm/analyzer.wasm
