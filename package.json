@@ -7,7 +7,8 @@
     "prepare": "panda codegen",
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@ark-ui/solid": "^2.2.0",
@@ -29,6 +30,7 @@
     "@pandacss/dev": "^0.39.1",
     "@park-ui/panda-preset": "^0.37.0",
     "@types/node": "^20.12.11",
+    "gh-pages": "^6.1.1",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vite-plugin-solid": "^2.10.2",
