@@ -11,19 +11,24 @@
   },
   "dependencies": {
     "@ark-ui/solid": "^2.2.0",
+    "@codemirror/lang-json": "^6.0.1",
     "@codemirror/language": "^6.10.1",
     "@codemirror/legacy-modes": "^6.4.0",
-    "@fontsource/roboto": "^5.0.13",
+    "@codemirror/state": "^6.4.1",
+    "@fontsource-variable/plus-jakarta-sans": "^5.0.21",
+    "@fontsource-variable/roboto-mono": "^5.0.19",
     "@nanostores/solid": "^0.4.2",
     "@solid-primitives/scheduled": "^1.4.3",
     "codemirror": "^6.0.1",
     "nanostores": "^0.10.3",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.8.17"
+    "solid-js": "^1.8.17",
+    "thememirror": "^2.0.1"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.39.0",
+    "@pandacss/dev": "^0.39.1",
     "@park-ui/panda-preset": "^0.37.0",
+    "@types/node": "^20.12.11",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vite-plugin-solid": "^2.10.2",

@@ -1,21 +1,25 @@
-import "@fontsource/roboto";
-import { Flex, Grid, GridItem } from "styled-system/jsx";
+import { Flex } from "styled-system/jsx";
 import { AstPreview } from "~/components/ast-preview";
 import { CodeEditor } from "~/components/code-editor";
-import { Navbar } from "./components/navbar";
+import { Navbar } from "~/components/navbar";
+import * as Splitter from '~/components/ui/splitter'
 
 function App() {
   return (
     <Flex height="screen" direction="column">
       <Navbar />
-      <Grid flexGrow={1} columns={2}>
-        <GridItem>
+      <Splitter.Root size={[
+        { id: 'a', size: 50 },
+        { id: 'b', size: 50 },
+      ]}>
+        <Splitter.Panel id="a">
           <CodeEditor />
-        </GridItem>
-        <GridItem>
+        </Splitter.Panel>
+        <Splitter.ResizeTrigger id="a:b" />
+        <Splitter.Panel id="b">
           <AstPreview />
-        </GridItem>
-      </Grid>
+        </Splitter.Panel>
+      </Splitter.Root>
     </Flex>
   );
 }

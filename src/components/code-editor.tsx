@@ -5,7 +5,8 @@ import { StreamLanguage } from "@codemirror/language";
 import { dart } from "@codemirror/legacy-modes/mode/clike";
 import { onMount } from "solid-js";
 import { debounce } from "@solid-primitives/scheduled";
-import { css } from "styled-system/css";
+import { Box } from "styled-system/jsx";
+import { tomorrow } from 'thememirror';
 
 export const CodeEditor = () => {
   const code = useStore($inputCode);
@@ -18,11 +19,12 @@ export const CodeEditor = () => {
       extensions: [
         basicSetup,
         StreamLanguage.define(dart),
-        EditorView.updateListener.of((v) => {
-          if (v.docChanged) {
-            updateCode(v.view.state.doc.toString());
+        EditorView.updateListener.of((viewUpdate) => {
+          if (viewUpdate.docChanged) {
+            updateCode(viewUpdate.view.state.doc.toString());
           }
         }),
+        tomorrow,
         EditorView.theme({
           "&": {
             height: "100%",
@@ -37,5 +39,5 @@ export const CodeEditor = () => {
     };
   });
 
-  return <div class={css({ height: "full" })} ref={editorRef} />;
+  return <Box height="full" flexGrow={1} ref={editorRef} />;
 };
