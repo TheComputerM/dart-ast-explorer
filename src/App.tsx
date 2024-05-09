@@ -1,8 +1,10 @@
+import { Suspense, lazy } from "solid-js";
 import { Flex } from "styled-system/jsx";
-import { AstPreview } from "~/components/ast-preview";
 import { CodeEditor } from "~/components/code-editor";
 import { Navbar } from "~/components/navbar";
 import * as Splitter from '~/components/ui/splitter'
+
+const AstPreview = lazy(() => import("~/components/ast-preview"));
 
 function App() {
   return (
@@ -17,7 +19,9 @@ function App() {
         </Splitter.Panel>
         <Splitter.ResizeTrigger id="a:b" />
         <Splitter.Panel id="b">
-          <AstPreview />
+          <Suspense fallback={<p>Loading...</p>}>
+            <AstPreview />
+          </Suspense>
         </Splitter.Panel>
       </Splitter.Root>
     </Flex>

@@ -27,7 +27,7 @@ const $ast = computed($inputCode, (code) => {
   return (globalThis as any).tree.rootNode as { children: AstTreeNode[] };
 });
 
-export const AstPreview = () => {
+const AstPreview = () => {
   const ast = useStore($ast);
 
   let jsonDisplayRef;
@@ -90,3 +90,5 @@ export const AstPreview = () => {
     </Box>
   );
 };
+
+export default AstPreview;
