@@ -7,11 +7,12 @@ import { $inputCode } from "~/lib/store/input";
 import { AstTreeNode, AstTreeBuilder } from "~/lib/analyzer/ast";
 import { createEffect, onMount } from "solid-js";
 import { EditorView, basicSetup } from "codemirror";
-import { EditorState } from "@codemirror/state";
+import { Compartment, EditorState } from "@codemirror/state";
 import { json } from "@codemirror/lang-json";
 import { Box } from "styled-system/jsx";
-import { tomorrow } from "thememirror";
+import { dracula, tomorrow } from "thememirror";
 import * as Tabs from "~/components/ui/tabs";
+import { $theme } from "~/lib/store/theme";
 
 (globalThis as any).AstTreeNode = AstTreeNode;
 (globalThis as any).AstTreeBuilder = AstTreeBuilder;
@@ -29,9 +30,12 @@ const $ast = computed($inputCode, (code) => {
 
 const AstPreview = () => {
   const ast = useStore($ast);
+  const theme = useStore($theme);
 
   let jsonDisplayRef;
   let editor: EditorView;
+
+  const themeConfig = new Compartment();
   onMount(() => {
     editor = new EditorView({
       doc: JSON.stringify(ast().children, null, 2),
@@ -39,7 +43,7 @@ const AstPreview = () => {
       extensions: [
         basicSetup,
         json(),
-        tomorrow,
+        themeConfig.of([tomorrow]),
         EditorView.theme({
           "&": {
             height: "100%",
@@ -69,15 +73,31 @@ const AstPreview = () => {
     }
   });
 
+  createEffect(() => {
+    if (editor) {
+      editor.dispatch({
+        effects: themeConfig.reconfigure([
+          theme() === "light" ? tomorrow : dracula,
+        ]),
+      });
+    }
+  });
+
   return (
     <Box flexGrow={1} height="full" overflow="auto">
       <Tabs.Root size="sm" value="tree" variant="line">
         <Tabs.List>
-          <Tabs.Trigger value="tree" alignItems="end">Tree</Tabs.Trigger>
-          <Tabs.Trigger value="json" alignItems="end">JSON</Tabs.Trigger>
+          <Tabs.Trigger value="tree" alignItems="end">
+            Tree
+          </Tabs.Trigger>
+          <Tabs.Trigger value="json" alignItems="end">
+            JSON
+          </Tabs.Trigger>
           <Tabs.Indicator />
         </Tabs.List>
-        <Tabs.Content value="tree" pt="0">TODO</Tabs.Content>
+        <Tabs.Content value="tree" pt="0">
+          TODO
+        </Tabs.Content>
         <Tabs.Content value="json" pt="0">
           <Box
             height="full"
