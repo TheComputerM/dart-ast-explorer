@@ -9,6 +9,6 @@ environment:
 # Add regular dependencies here.
 dependencies:
   analyzer: ^6.4.1
-  web: ^0.5.1
+  web: ^1.0.0
 
 dev_dependencies:

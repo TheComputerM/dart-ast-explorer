@@ -1,1 +1,1 @@
-*.wasm.unopt
+*.unopt.wasm
