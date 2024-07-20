@@ -28,7 +28,7 @@
     "thememirror": "^2.0.1"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.42.0",
+    "@pandacss/dev": "^0.43.0",
     "@park-ui/panda-preset": "^0.39.0",
     "@types/node": "^20.14.11",
     "gh-pages": "^6.1.1",

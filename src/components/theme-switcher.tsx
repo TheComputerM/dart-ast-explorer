@@ -1,5 +1,5 @@
 import { $theme } from "~/lib/store/theme";
-import { IconButton } from "~/components/ui/icon-button";
+import { IconButton } from "~/components/ui";
 import { useStore } from "@nanostores/solid";
 import { Show, createEffect } from "solid-js";
 import { TbMoon, TbSun } from "solid-icons/tb";

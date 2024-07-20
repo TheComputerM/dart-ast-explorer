@@ -11,7 +11,7 @@ import { Compartment, EditorState } from "@codemirror/state";
 import { json } from "@codemirror/lang-json";
 import { Box } from "styled-system/jsx";
 import { dracula, tomorrow } from "thememirror";
-import * as Tabs from "~/components/ui/tabs";
+import { Tabs } from "~/components/ui";
 import { $theme } from "~/lib/store/theme";
 
 (globalThis as any).AstTreeNode = AstTreeNode;
