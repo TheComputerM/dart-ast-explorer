@@ -1,0 +1,12 @@
+@layer reset, base, tokens, recipes, utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans Variable', sans-serif;
+  }
+}
+
+.cm-content {
+  font-family: 'Roboto Mono Variable', monospace;
+  font-size: 0.8rem;
+}

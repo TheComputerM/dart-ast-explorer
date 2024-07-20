@@ -1,6 +1,6 @@
-import wasm_url from "~/lib/wasm/analyzer.wasm?url";
+import wasm_url from "tool/ast-analyzer.wasm?url";
 // @ts-ignore
-import * as dart from "~/lib/wasm/analyzer.mjs";
+import * as dart from "tool/ast-analyzer.mjs";
 import { computed } from "nanostores";
 import { useStore } from "@nanostores/solid";
 import { $inputCode } from "~/lib/store/input";

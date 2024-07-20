@@ -1,8 +1,8 @@
 import 'dart:js_interop';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:analyzer/src/dart/ast/ast.dart';
 
 extension type AstTreeNode._(JSObject _) implements JSObject {
   external AstTreeNode(
@@ -35,7 +35,7 @@ external AstTreeBuilder get tree;
 class AstTreeVisitor extends UnifyingAstVisitor<void> {
   @override
   void visitNode(AstNode node) {
-    // create a AST tree node that is connected to JS  
+    // create a AST tree node that is connected to JS
     var treeNode = AstTreeNode(
       node.hashCode,
       node.runtimeType.toString(),
