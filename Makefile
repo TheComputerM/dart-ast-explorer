@@ -1,3 +1,3 @@
 .PHONY: build
 build:
-	dart compile wasm ./lib/main.dart -o ./web/bin/ast-analyzer.wasm
+	dart compile wasm ./lib/main.dart -o ./web/src/lib/analyzer/ast-analyzer.wasm
