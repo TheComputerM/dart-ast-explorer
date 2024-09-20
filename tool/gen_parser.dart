@@ -24,28 +24,40 @@ List<ClassMirror> getAstNodeClassMirrors() {
       .toList(growable: false);
 }
 
-/// Returns a map of object names of ast elements with a list of their properties' name
+/// Returns a map of object names with a list of their properties
 Map<String, List<String>> getAstNodesPropertiesMap(List<ClassMirror> mirrors) {
-  List<String> getters(ClassMirror classmirror) {
-    final deprecatedMirror = reflectType(Deprecated);
-    return classmirror.declarations.values
-        .map((value) {
-          final isDeprecated = value.metadata.any(
+  final deprecatedMirror = reflectType(Deprecated);
+
+  final blacklist = {
+    "CompilationUnit": {"lineInfo", "sortedDirectivesAndDeclarations"}
+  };
+
+  List<String> getProperties(ClassMirror mirror) {
+    final classname = MirrorSystem.getName(mirror.simpleName);
+
+    return mirror.declarations.values
+        .map((property) {
+          final isDeprecated = property.metadata.any(
             (metadata) => metadata.type.isAssignableTo(deprecatedMirror),
           );
-          if (value is MethodMirror && value.isGetter && !isDeprecated) {
-            return MirrorSystem.getName(value.simpleName);
+          if (property is MethodMirror && property.isGetter && !isDeprecated) {
+            return MirrorSystem.getName(property.simpleName);
           }
           return null;
         })
         .whereType<String>()
+        .where((name) {
+          return blacklist[classname]?.contains(name) != true;
+        })
         .toList(growable: false);
   }
 
-  return {
+  final result = {
     for (final mirror in mirrors)
-      MirrorSystem.getName(mirror.simpleName): getters(mirror)
+      MirrorSystem.getName(mirror.simpleName): getProperties(mirror)
   };
+
+  return result;
 }
 
 void main() {

@@ -208,10 +208,7 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['endToken'] = convert(node.endToken);
     jsnode['featureSet'] = convert(node.featureSet);
     jsnode['languageVersionToken'] = convert(node.languageVersionToken);
-    jsnode['lineInfo'] = convert(node.lineInfo);
     jsnode['scriptTag'] = convert(node.scriptTag);
-    jsnode['sortedDirectivesAndDeclarations'] =
-        convert(node.sortedDirectivesAndDeclarations);
   }
 
   if (node is ConditionalExpression) {
