@@ -4,15 +4,18 @@ import { dart } from "@codemirror/legacy-modes/mode/clike";
 import { createEffect, onMount } from "solid-js";
 import { debounce } from "@solid-primitives/scheduled";
 import { Box } from "styled-system/jsx";
-import { dracula, tomorrow } from "thememirror";
 import { Compartment } from "@codemirror/state";
 import { useStore } from "@tanstack/solid-store";
 import { store } from "~/lib/store";
+import { oneDark } from "@codemirror/theme-one-dark";
 
 export const CodeEditor = () => {
   const code = useStore(store, (state) => state.code);
   const theme = useStore(store, (state) => state.theme);
-  const updateCode = debounce((input: string) => store.setState((state) => ({ ...state, code: input })), 500);
+  const updateCode = debounce((input: string) => store.setState((state) => ({ ...state, code: input })), 750);
+
+  const editorLightTheme = EditorView.baseTheme({});
+  const editorDarkTheme = oneDark;
 
   let editorRef;
   let editor: EditorView;
@@ -28,7 +31,7 @@ export const CodeEditor = () => {
             updateCode(viewUpdate.view.state.doc.toString());
           }
         }),
-        themeConfig.of([tomorrow]),
+        themeConfig.of([theme() === "light" ? editorLightTheme : editorDarkTheme]),
         EditorView.theme({
           "&": {
             height: "100%",
@@ -47,7 +50,7 @@ export const CodeEditor = () => {
     if (editor) {
       editor.dispatch({
         effects: themeConfig.reconfigure([
-          theme() === "light" ? tomorrow : dracula,
+          theme() === "light" ? editorLightTheme : editorDarkTheme,
         ]),
       });
     }

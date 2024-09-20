@@ -6,10 +6,10 @@ import { EditorView, basicSetup } from "codemirror";
 import { Compartment, EditorState } from "@codemirror/state";
 import { json } from "@codemirror/lang-json";
 import { Box } from "styled-system/jsx";
-import { dracula, tomorrow } from "thememirror";
 import { Tabs } from "~/components/ui/tabs";
 import { useStore } from "@tanstack/solid-store";
 import { store } from "~/lib/store";
+import { oneDark } from "@codemirror/theme-one-dark";
 
 const bytes = await (await fetch(wasm_url)).arrayBuffer();
 const module = await WebAssembly.compile(bytes);
@@ -19,6 +19,9 @@ const instance: WebAssembly.Instance = await dart.instantiate(module, {});
 const JSONPreview = () => {
   const theme = useStore(store, (state) => state.theme);
   const ast = useStore(store, (state) => state.ast);
+
+  const editorLightTheme = EditorView.baseTheme({});
+  const editorDarkTheme = oneDark;
 
   let jsonDisplayRef;
   let editor: EditorView;
@@ -31,7 +34,7 @@ const JSONPreview = () => {
       extensions: [
         basicSetup,
         json(),
-        themeConfig.of([tomorrow]),
+        themeConfig.of([theme() === "light" ? editorLightTheme : editorDarkTheme]),
         EditorView.theme({
           "&": {
             height: "100%",
@@ -65,7 +68,7 @@ const JSONPreview = () => {
     if (editor) {
       editor.dispatch({
         effects: themeConfig.reconfigure([
-          theme() === "light" ? tomorrow : dracula,
+          theme() === "light" ? editorLightTheme : editorDarkTheme,
         ]),
       });
     }

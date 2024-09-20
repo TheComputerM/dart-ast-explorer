@@ -16,13 +16,13 @@
     "@codemirror/language": "^6.10.3",
     "@codemirror/legacy-modes": "^6.4.1",
     "@codemirror/state": "^6.4.1",
+    "@codemirror/theme-one-dark": "^6.1.2",
     "@fontsource-variable/roboto-mono": "^5.1.0",
     "@solid-primitives/scheduled": "^1.4.3",
     "@tanstack/solid-store": "^0.5.5",
     "codemirror": "^6.0.1",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.8.22",
-    "thememirror": "^2.0.1"
+    "solid-js": "^1.8.22"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.46.0",
