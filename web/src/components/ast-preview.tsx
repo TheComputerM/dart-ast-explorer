@@ -74,12 +74,7 @@ const JSONPreview = () => {
     }
   });
 
-  return <Box
-    height="full"
-    flexGrow={1}
-    overflow="auto"
-    ref={jsonDisplayRef}
-  />
+  return <Box ref={jsonDisplayRef} />
 }
 
 const AstPreview = () => {
@@ -90,25 +85,23 @@ const AstPreview = () => {
   });
 
   return (
-    <Box flexGrow={1} height="full" overflow="auto">
-      <Tabs.Root size="sm" value="tree" variant="enclosed">
-        <Tabs.List>
-          <Tabs.Trigger value="tree">
-            Tree
-          </Tabs.Trigger>
-          <Tabs.Trigger value="json">
-            JSON
-          </Tabs.Trigger>
-          <Tabs.Indicator />
-        </Tabs.List>
-        <Tabs.Content value="tree" pt="0">
-          TODO
-        </Tabs.Content>
-        <Tabs.Content value="json" pt="0">
-          <JSONPreview />
-        </Tabs.Content>
-      </Tabs.Root>
-    </Box>
+    <Tabs.Root flexGrow={1} height="full" overflow="auto" size="sm" variant="enclosed" defaultValue="json">
+      <Tabs.List position="sticky" top="0" zIndex="docked">
+        <Tabs.Trigger value="tree">
+          Tree
+        </Tabs.Trigger>
+        <Tabs.Trigger value="json">
+          JSON
+        </Tabs.Trigger>
+        <Tabs.Indicator />
+      </Tabs.List>
+      <Tabs.Content value="tree" p="0">
+        TODO
+      </Tabs.Content>
+      <Tabs.Content value="json" p="0">
+        <JSONPreview />
+      </Tabs.Content>
+    </Tabs.Root>
   );
 };
 
