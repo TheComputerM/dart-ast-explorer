@@ -2,7 +2,7 @@ import { type Assign, Tabs } from '@ark-ui/solid'
 import type { ComponentProps } from 'solid-js'
 import { type TabsVariantProps, tabs } from 'styled-system/recipes'
 import type { HTMLStyledProps } from 'styled-system/types'
-import { createStyleContext } from '~/lib/create-style-context'
+import { createStyleContext } from './utils/create-style-context'
 
 const { withProvider, withContext } = createStyleContext(tabs)
 

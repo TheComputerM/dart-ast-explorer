@@ -2,7 +2,7 @@ import { Suspense, lazy } from "solid-js";
 import { Flex } from "styled-system/jsx";
 import { CodeEditor } from "~/components/code-editor";
 import { Navbar } from "~/components/navbar";
-import { Splitter } from '~/components/ui'
+import { Splitter } from '~/components/ui/splitter'
 
 const AstPreview = lazy(() => import("~/components/ast-preview"));
 

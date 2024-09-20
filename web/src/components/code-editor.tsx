@@ -1,5 +1,3 @@
-import { useStore } from "@nanostores/solid";
-import { $inputCode } from "~/lib/store/input";
 import { basicSetup, EditorView } from "codemirror";
 import { StreamLanguage } from "@codemirror/language";
 import { dart } from "@codemirror/legacy-modes/mode/clike";
@@ -8,12 +6,13 @@ import { debounce } from "@solid-primitives/scheduled";
 import { Box } from "styled-system/jsx";
 import { dracula, tomorrow } from "thememirror";
 import { Compartment } from "@codemirror/state";
-import { $theme } from "~/lib/store/theme";
+import { useStore } from "@tanstack/solid-store";
+import { store } from "~/lib/store";
 
 export const CodeEditor = () => {
-  const code = useStore($inputCode);
-  const theme = useStore($theme);
-  const updateCode = debounce((input: string) => $inputCode.set(input), 500);
+  const code = useStore(store, (state) => state.code);
+  const theme = useStore(store, (state) => state.theme);
+  const updateCode = debounce((input: string) => store.setState((state) => ({ ...state, code: input })), 500);
 
   let editorRef;
   let editor: EditorView;

@@ -1,44 +1,32 @@
-import wasm_url from "tool/ast-analyzer.wasm?url";
+import wasm_url from "~/lib/analyzer/ast-analyzer.wasm?url";
 // @ts-ignore
-import * as dart from "tool/ast-analyzer.mjs";
-import { computed } from "nanostores";
-import { useStore } from "@nanostores/solid";
-import { $inputCode } from "~/lib/store/input";
-import { AstTreeNode, AstTreeBuilder } from "~/lib/analyzer/ast";
+import * as dart from "~/lib/analyzer/ast-analyzer.mjs";
 import { createEffect, onMount } from "solid-js";
 import { EditorView, basicSetup } from "codemirror";
 import { Compartment, EditorState } from "@codemirror/state";
 import { json } from "@codemirror/lang-json";
 import { Box } from "styled-system/jsx";
 import { dracula, tomorrow } from "thememirror";
-import { Tabs } from "~/components/ui";
-import { $theme } from "~/lib/store/theme";
-
-(globalThis as any).AstTreeNode = AstTreeNode;
-(globalThis as any).AstTreeBuilder = AstTreeBuilder;
+import { Tabs } from "~/components/ui/tabs";
+import { useStore } from "@tanstack/solid-store";
+import { store } from "~/lib/store";
 
 const bytes = await (await fetch(wasm_url)).arrayBuffer();
 const module = await WebAssembly.compile(bytes);
 
 const instance: WebAssembly.Instance = await dart.instantiate(module, {});
 
-const $ast = computed($inputCode, (code) => {
-  (globalThis as any).tree = new AstTreeBuilder();
-  dart.invoke(instance, code);
-  return (globalThis as any).tree.rootNode as { children: AstTreeNode[] };
-});
-
-const AstPreview = () => {
-  const ast = useStore($ast);
-  const theme = useStore($theme);
+const JSONPreview = () => {
+  const theme = useStore(store, (state) => state.theme);
+  const ast = useStore(store, (state) => state.ast);
 
   let jsonDisplayRef;
   let editor: EditorView;
-
   const themeConfig = new Compartment();
+
   onMount(() => {
     editor = new EditorView({
-      doc: JSON.stringify(ast().children, null, 2),
+      doc: JSON.stringify(ast(), null, 2),
 
       extensions: [
         basicSetup,
@@ -66,7 +54,7 @@ const AstPreview = () => {
           changes: {
             from: 0,
             to: editor.state.doc.length,
-            insert: JSON.stringify(ast().children, null, 2),
+            insert: JSON.stringify(ast(), null, 2),
           },
         }),
       ]);
@@ -83,14 +71,29 @@ const AstPreview = () => {
     }
   });
 
+  return <Box
+    height="full"
+    flexGrow={1}
+    overflow="auto"
+    ref={jsonDisplayRef}
+  />
+}
+
+const AstPreview = () => {
+  const code = useStore(store, (state) => state.code);
+
+  createEffect(() => {
+    dart.invoke(instance, code());
+  });
+
   return (
     <Box flexGrow={1} height="full" overflow="auto">
-      <Tabs.Root size="sm" value="tree" variant="line">
+      <Tabs.Root size="sm" value="tree" variant="enclosed">
         <Tabs.List>
-          <Tabs.Trigger value="tree" alignItems="end">
+          <Tabs.Trigger value="tree">
             Tree
           </Tabs.Trigger>
-          <Tabs.Trigger value="json" alignItems="end">
+          <Tabs.Trigger value="json">
             JSON
           </Tabs.Trigger>
           <Tabs.Indicator />
@@ -99,12 +102,7 @@ const AstPreview = () => {
           TODO
         </Tabs.Content>
         <Tabs.Content value="json" pt="0">
-          <Box
-            height="full"
-            flexGrow={1}
-            overflow="auto"
-            ref={jsonDisplayRef}
-          />
+          <JSONPreview />
         </Tabs.Content>
       </Tabs.Root>
     </Box>
