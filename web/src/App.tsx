@@ -3,6 +3,7 @@ import { Flex } from "styled-system/jsx";
 import { CodeEditor } from "~/components/code-editor";
 import { Navbar } from "~/components/navbar";
 import { Splitter } from '~/components/ui/splitter'
+import { Spinner } from "./components/ui/spinner";
 
 const AstPreview = lazy(() => import("~/components/ast-preview"));
 
@@ -19,7 +20,7 @@ function App() {
         </Splitter.Panel>
         <Splitter.ResizeTrigger id="a:b" />
         <Splitter.Panel id="b">
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<Spinner size="lg" />}>
             <AstPreview />
           </Suspense>
         </Splitter.Panel>
