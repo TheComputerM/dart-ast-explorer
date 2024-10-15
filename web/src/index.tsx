@@ -1,10 +1,10 @@
 /* @refresh reload */
-import { render } from 'solid-js/web'
+import { render } from "solid-js/web";
 
-import '@fontsource-variable/roboto-mono';
-import './index.css'
-import App from './App'
+import "@fontsource-variable/roboto-mono";
+import "./index.css";
+import App from "./App";
 
-const root = document.getElementById('root')
+const root = document.getElementById("root");
 
-render(() => <App />, root!)
+render(() => <App />, root!);
