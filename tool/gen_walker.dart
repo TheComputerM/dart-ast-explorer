@@ -352,6 +352,6 @@ JSAny? convert(Object? obj) {
     p.dirname(Platform.script.path),
     "..",
     "lib",
-    "parser.g.dart",
+    "walker.g.dart",
   )).writeAsStringSync(formatter.format(template));
 }

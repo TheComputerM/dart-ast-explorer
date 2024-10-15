@@ -2,7 +2,7 @@ import 'dart:js_interop';
 
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:dart_ast_explorer/parser.g.dart';
+import 'package:dart_ast_explorer/walker.g.dart';
 
 @JS()
 external void setAst(JSAny? tree);
