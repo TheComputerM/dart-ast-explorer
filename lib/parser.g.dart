@@ -4,21 +4,41 @@ import 'dart:js_interop_unsafe';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/syntactic_entity.dart';
 
-JSObject convertObject(Object obj) {
+JSString _formatType(Type type) {
+  var typeString = type.toString();
+  if (typeString.endsWith("Impl")) {
+    typeString = typeString.substring(0, typeString.length - "Impl".length);
+  }
+  return typeString.toJS;
+}
+
+JSAny convertObject(Object obj) {
+  if (obj is bool) return obj.toJS;
+  if (obj is int) return obj.toJS;
+  if (obj is String) return obj.toJS;
   final jsobj = JSObject();
-  jsobj['string'] = obj.toString().toJS;
-  jsobj['type'] = obj.runtimeType.toString().toJS;
+  jsobj['type'] = _formatType(obj.runtimeType);
   return jsobj;
 }
 
-JSObject convertList(Iterable nodeList) {
+JSArray convertList(Iterable nodeList) {
   return nodeList.map(convert).toList(growable: false).toJS;
 }
 
 JSObject convertNode(SyntacticEntity node) {
-  final jsnode = convertObject(node);
+  final jsnode = JSObject();
+  jsnode['type'] = _formatType(node.runtimeType);
   if (node is AdjacentStrings) {
     jsnode['strings'] = convert(node.strings);
+  }
+
+  if (node is AnnotatedNode) {
+    jsnode['documentationComment'] = convert(node.documentationComment);
+    jsnode['firstTokenAfterCommentAndMetadata'] =
+        convert(node.firstTokenAfterCommentAndMetadata);
+    jsnode['metadata'] = convert(node.metadata);
+    jsnode['sortedCommentAndAnnotations'] =
+        convert(node.sortedCommentAndAnnotations);
   }
 
   if (node is Annotation) {
@@ -28,7 +48,6 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['element'] = convert(node.element);
     jsnode['elementAnnotation'] = convert(node.elementAnnotation);
     jsnode['name'] = convert(node.name);
-    jsnode['parent'] = convert(node.parent);
     jsnode['period'] = convert(node.period);
     jsnode['typeArguments'] = convert(node.typeArguments);
   }
@@ -45,8 +64,13 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['type'] = convert(node.type);
   }
 
-  if (node is AssertInitializer) {
-    ;
+  if (node is Assertion) {
+    jsnode['assertKeyword'] = convert(node.assertKeyword);
+    jsnode['comma'] = convert(node.comma);
+    jsnode['condition'] = convert(node.condition);
+    jsnode['leftParenthesis'] = convert(node.leftParenthesis);
+    jsnode['message'] = convert(node.message);
+    jsnode['rightParenthesis'] = convert(node.rightParenthesis);
   }
 
   if (node is AssertStatement) {
@@ -186,6 +210,10 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['withClause'] = convert(node.withClause);
   }
 
+  if (node is Combinator) {
+    jsnode['keyword'] = convert(node.keyword);
+  }
+
   if (node is Comment) {
     jsnode['codeBlocks'] = convert(node.codeBlocks);
     jsnode['docDirectives'] = convert(node.docDirectives);
@@ -209,6 +237,13 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['featureSet'] = convert(node.featureSet);
     jsnode['languageVersionToken'] = convert(node.languageVersionToken);
     jsnode['scriptTag'] = convert(node.scriptTag);
+  }
+
+  if (node is CompoundAssignmentExpression) {
+    jsnode['readElement'] = convert(node.readElement);
+    jsnode['readType'] = convert(node.readType);
+    jsnode['writeElement'] = convert(node.writeElement);
+    jsnode['writeType'] = convert(node.writeType);
   }
 
   if (node is ConditionalExpression) {
@@ -269,6 +304,10 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['constructorName'] = convert(node.constructorName);
   }
 
+  if (node is ConstructorReferenceNode) {
+    jsnode['staticElement'] = convert(node.staticElement);
+  }
+
   if (node is ConstructorSelector) {
     jsnode['name'] = convert(node.name);
     jsnode['period'] = convert(node.period);
@@ -279,6 +318,16 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['label'] = convert(node.label);
     jsnode['semicolon'] = convert(node.semicolon);
     jsnode['target'] = convert(node.target);
+  }
+
+  if (node is DartPattern) {
+    jsnode['matchedValueType'] = convert(node.matchedValueType);
+    jsnode['precedence'] = convert(node.precedence);
+    jsnode['unParenthesized'] = convert(node.unParenthesized);
+  }
+
+  if (node is Declaration) {
+    jsnode['declaredElement'] = convert(node.declaredElement);
   }
 
   if (node is DeclaredIdentifier) {
@@ -300,6 +349,10 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['defaultValue'] = convert(node.defaultValue);
     jsnode['parameter'] = convert(node.parameter);
     jsnode['separator'] = convert(node.separator);
+  }
+
+  if (node is Directive) {
+    jsnode['element'] = convert(node.element);
   }
 
   if (node is DoStatement) {
@@ -360,6 +413,14 @@ JSObject convertNode(SyntacticEntity node) {
   if (node is ExportDirective) {
     jsnode['element'] = convert(node.element);
     jsnode['exportKeyword'] = convert(node.exportKeyword);
+  }
+
+  if (node is Expression) {
+    jsnode['inConstantContext'] = convert(node.inConstantContext);
+    jsnode['isAssignable'] = convert(node.isAssignable);
+    jsnode['precedence'] = convert(node.precedence);
+    jsnode['staticParameterElement'] = convert(node.staticParameterElement);
+    jsnode['staticType'] = convert(node.staticType);
   }
 
   if (node is ExpressionFunctionBody) {
@@ -445,6 +506,11 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['typeParameters'] = convert(node.typeParameters);
   }
 
+  if (node is ForEachParts) {
+    jsnode['inKeyword'] = convert(node.inKeyword);
+    jsnode['iterable'] = convert(node.iterable);
+  }
+
   if (node is ForEachPartsWithDeclaration) {
     jsnode['loopVariable'] = convert(node.loopVariable);
   }
@@ -468,6 +534,25 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['rightParenthesis'] = convert(node.rightParenthesis);
   }
 
+  if (node is FormalParameter) {
+    jsnode['covariantKeyword'] = convert(node.covariantKeyword);
+    jsnode['declaredElement'] = convert(node.declaredElement);
+    jsnode['isConst'] = convert(node.isConst);
+    jsnode['isExplicitlyTyped'] = convert(node.isExplicitlyTyped);
+    jsnode['isFinal'] = convert(node.isFinal);
+    jsnode['isNamed'] = convert(node.isNamed);
+    jsnode['isOptional'] = convert(node.isOptional);
+    jsnode['isOptionalNamed'] = convert(node.isOptionalNamed);
+    jsnode['isOptionalPositional'] = convert(node.isOptionalPositional);
+    jsnode['isPositional'] = convert(node.isPositional);
+    jsnode['isRequired'] = convert(node.isRequired);
+    jsnode['isRequiredNamed'] = convert(node.isRequiredNamed);
+    jsnode['isRequiredPositional'] = convert(node.isRequiredPositional);
+    jsnode['metadata'] = convert(node.metadata);
+    jsnode['name'] = convert(node.name);
+    jsnode['requiredKeyword'] = convert(node.requiredKeyword);
+  }
+
   if (node is FormalParameterList) {
     jsnode['leftDelimiter'] = convert(node.leftDelimiter);
     jsnode['leftParenthesis'] = convert(node.leftParenthesis);
@@ -475,6 +560,13 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['parameters'] = convert(node.parameters);
     jsnode['rightDelimiter'] = convert(node.rightDelimiter);
     jsnode['rightParenthesis'] = convert(node.rightParenthesis);
+  }
+
+  if (node is ForParts) {
+    jsnode['condition'] = convert(node.condition);
+    jsnode['leftSeparator'] = convert(node.leftSeparator);
+    jsnode['rightSeparator'] = convert(node.rightSeparator);
+    jsnode['updaters'] = convert(node.updaters);
   }
 
   if (node is ForPartsWithDeclarations) {
@@ -496,6 +588,14 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['forLoopParts'] = convert(node.forLoopParts);
     jsnode['leftParenthesis'] = convert(node.leftParenthesis);
     jsnode['rightParenthesis'] = convert(node.rightParenthesis);
+  }
+
+  if (node is FunctionBody) {
+    jsnode['isAsynchronous'] = convert(node.isAsynchronous);
+    jsnode['isGenerator'] = convert(node.isGenerator);
+    jsnode['isSynchronous'] = convert(node.isSynchronous);
+    jsnode['keyword'] = convert(node.keyword);
+    jsnode['star'] = convert(node.star);
   }
 
   if (node is FunctionDeclaration) {
@@ -567,6 +667,11 @@ JSObject convertNode(SyntacticEntity node) {
 
   if (node is HideCombinator) {
     jsnode['hiddenNames'] = convert(node.hiddenNames);
+  }
+
+  if (node is Identifier) {
+    jsnode['name'] = convert(node.name);
+    jsnode['staticElement'] = convert(node.staticElement);
   }
 
   if (node is IfElement) {
@@ -652,6 +757,14 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['contentsEnd'] = convert(node.contentsEnd);
     jsnode['contentsOffset'] = convert(node.contentsOffset);
     jsnode['value'] = convert(node.value);
+  }
+
+  if (node is InvocationExpression) {
+    jsnode['argumentList'] = convert(node.argumentList);
+    jsnode['function'] = convert(node.function);
+    jsnode['staticInvokeType'] = convert(node.staticInvokeType);
+    jsnode['typeArguments'] = convert(node.typeArguments);
+    jsnode['typeArgumentTypes'] = convert(node.typeArgumentTypes);
   }
 
   if (node is IsExpression) {
@@ -762,6 +875,10 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['target'] = convert(node.target);
   }
 
+  if (node is MethodReferenceExpression) {
+    jsnode['staticElement'] = convert(node.staticElement);
+  }
+
   if (node is MixinDeclaration) {
     jsnode['augmentKeyword'] = convert(node.augmentKeyword);
     jsnode['baseKeyword'] = convert(node.baseKeyword);
@@ -780,6 +897,10 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['superclassConstraints'] = convert(node.superclassConstraints);
   }
 
+  if (node is NamedCompilationUnitMember) {
+    jsnode['name'] = convert(node.name);
+  }
+
   if (node is NamedExpression) {
     jsnode['element'] = convert(node.element);
     jsnode['expression'] = convert(node.expression);
@@ -795,6 +916,12 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['typeArguments'] = convert(node.typeArguments);
   }
 
+  if (node is NamespaceDirective) {
+    jsnode['combinators'] = convert(node.combinators);
+    jsnode['configurations'] = convert(node.configurations);
+    jsnode['semicolon'] = convert(node.semicolon);
+  }
+
   if (node is NativeClause) {
     jsnode['name'] = convert(node.name);
     jsnode['nativeKeyword'] = convert(node.nativeKeyword);
@@ -804,6 +931,12 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['nativeKeyword'] = convert(node.nativeKeyword);
     jsnode['semicolon'] = convert(node.semicolon);
     jsnode['stringLiteral'] = convert(node.stringLiteral);
+  }
+
+  if (node is NormalFormalParameter) {
+    jsnode['documentationComment'] = convert(node.documentationComment);
+    jsnode['sortedCommentAndAnnotations'] =
+        convert(node.sortedCommentAndAnnotations);
   }
 
   if (node is NullAssertPattern) {
@@ -932,6 +1065,12 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['rightParenthesis'] = convert(node.rightParenthesis);
   }
 
+  if (node is RecordTypeAnnotationField) {
+    jsnode['metadata'] = convert(node.metadata);
+    jsnode['name'] = convert(node.name);
+    jsnode['type'] = convert(node.type);
+  }
+
   if (node is RecordTypeAnnotationNamedField) {
     jsnode['name'] = convert(node.name);
   }
@@ -940,10 +1079,6 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['fields'] = convert(node.fields);
     jsnode['leftBracket'] = convert(node.leftBracket);
     jsnode['rightBracket'] = convert(node.rightBracket);
-  }
-
-  if (node is RecordTypeAnnotationPositionalField) {
-    ;
   }
 
   if (node is RedirectingConstructorInvocation) {
@@ -1023,6 +1158,14 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['value'] = convert(node.value);
   }
 
+  if (node is SingleStringLiteral) {
+    jsnode['contentsEnd'] = convert(node.contentsEnd);
+    jsnode['contentsOffset'] = convert(node.contentsOffset);
+    jsnode['isMultiline'] = convert(node.isMultiline);
+    jsnode['isRaw'] = convert(node.isRaw);
+    jsnode['isSingleQuoted'] = convert(node.isSingleQuoted);
+  }
+
   if (node is SpreadElement) {
     jsnode['expression'] = convert(node.expression);
     jsnode['isNullAware'] = convert(node.isNullAware);
@@ -1033,6 +1176,10 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['elements'] = convert(node.elements);
     jsnode['firstString'] = convert(node.firstString);
     jsnode['lastString'] = convert(node.lastString);
+  }
+
+  if (node is StringLiteral) {
+    jsnode['stringValue'] = convert(node.stringValue);
   }
 
   if (node is SuperConstructorInvocation) {
@@ -1061,10 +1208,6 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['expression'] = convert(node.expression);
   }
 
-  if (node is SwitchDefault) {
-    ;
-  }
-
   if (node is SwitchExpression) {
     jsnode['cases'] = convert(node.cases);
     jsnode['expression'] = convert(node.expression);
@@ -1079,6 +1222,13 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['arrow'] = convert(node.arrow);
     jsnode['expression'] = convert(node.expression);
     jsnode['guardedPattern'] = convert(node.guardedPattern);
+  }
+
+  if (node is SwitchMember) {
+    jsnode['colon'] = convert(node.colon);
+    jsnode['keyword'] = convert(node.keyword);
+    jsnode['labels'] = convert(node.labels);
+    jsnode['statements'] = convert(node.statements);
   }
 
   if (node is SwitchPatternCase) {
@@ -1124,10 +1274,27 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['tryKeyword'] = convert(node.tryKeyword);
   }
 
+  if (node is TypeAlias) {
+    jsnode['augmentKeyword'] = convert(node.augmentKeyword);
+    jsnode['semicolon'] = convert(node.semicolon);
+    jsnode['typedefKeyword'] = convert(node.typedefKeyword);
+  }
+
+  if (node is TypeAnnotation) {
+    jsnode['question'] = convert(node.question);
+    jsnode['type'] = convert(node.type);
+  }
+
   if (node is TypeArgumentList) {
     jsnode['arguments'] = convert(node.arguments);
     jsnode['leftBracket'] = convert(node.leftBracket);
     jsnode['rightBracket'] = convert(node.rightBracket);
+  }
+
+  if (node is TypedLiteral) {
+    jsnode['constKeyword'] = convert(node.constKeyword);
+    jsnode['isConst'] = convert(node.isConst);
+    jsnode['typeArguments'] = convert(node.typeArguments);
   }
 
   if (node is TypeLiteral) {
@@ -1145,6 +1312,10 @@ JSObject convertNode(SyntacticEntity node) {
     jsnode['leftBracket'] = convert(node.leftBracket);
     jsnode['rightBracket'] = convert(node.rightBracket);
     jsnode['typeParameters'] = convert(node.typeParameters);
+  }
+
+  if (node is UriBasedDirective) {
+    jsnode['uri'] = convert(node.uri);
   }
 
   if (node is VariableDeclaration) {
@@ -1170,6 +1341,10 @@ JSObject convertNode(SyntacticEntity node) {
   if (node is VariableDeclarationStatement) {
     jsnode['semicolon'] = convert(node.semicolon);
     jsnode['variables'] = convert(node.variables);
+  }
+
+  if (node is VariablePattern) {
+    jsnode['name'] = convert(node.name);
   }
 
   if (node is WhenClause) {
@@ -1206,7 +1381,7 @@ JSObject convertNode(SyntacticEntity node) {
   return jsnode;
 }
 
-JSObject? convert(Object? obj) {
+JSAny? convert(Object? obj) {
   if (obj == null) return null;
   if (obj is Iterable) return convertList(obj);
   if (obj is SyntacticEntity) return convertNode(obj);

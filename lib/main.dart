@@ -5,7 +5,7 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:dart_ast_explorer/parser.g.dart';
 
 @JS()
-external void setAst(JSObject? tree);
+external void setAst(JSAny? tree);
 
 void main(List<String> arguments) {
   final result = parseString(
@@ -14,5 +14,5 @@ void main(List<String> arguments) {
     throwIfDiagnostics: false,
   );
 
-  setAst(convert(result.unit));
+  setAst(convert(result.unit.declarations));
 }
