@@ -12,7 +12,7 @@
 		"deploy": "gh-pages -d dist"
 	},
 	"dependencies": {
-		"@ark-ui/solid": "^3.12.1",
+		"@ark-ui/solid": "^3.13.0",
 		"@codemirror/lang-json": "^6.0.1",
 		"@codemirror/language": "^6.10.3",
 		"@codemirror/legacy-modes": "^6.4.1",
@@ -23,16 +23,16 @@
 		"@tanstack/solid-store": "^0.5.5",
 		"codemirror": "^6.0.1",
 		"solid-icons": "^1.1.0",
-		"solid-js": "^1.8.22"
+		"solid-js": "^1.9.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.2",
-		"@pandacss/dev": "^0.46.0",
+		"@pandacss/dev": "^0.46.1",
 		"@park-ui/panda-preset": "^0.42.0",
-		"@types/node": "^22.5.5",
-		"gh-pages": "^6.1.1",
-		"typescript": "^5.6.2",
-		"vite": "^5.4.6",
+		"@types/node": "^22.7.5",
+		"gh-pages": "^6.2.0",
+		"typescript": "^5.6.3",
+		"vite": "^5.4.9",
 		"vite-plugin-solid": "^2.10.2",
 		"vite-tsconfig-paths": "^5.0.1"
 	}
